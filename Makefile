@@ -1,4 +1,9 @@
-.PHONY: build migrations start superuser test
+APP ?= none
+
+.PHONY: app build migrations start superuser test
+
+app:
+	docker-compose run --rm app sh -c "python manage.py startapp ${APP}"
 
 build:
 	docker-compose build
@@ -13,4 +18,4 @@ superuser:
 	docker-compose run app sh -c "python manage.py createsuperuser"
 
 test:
-	docker-compose run app sh -c "python manage.py test && flake8"
+	docker-compose run --rm app sh -c "python manage.py test && flake8"
